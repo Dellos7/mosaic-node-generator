@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Dellos7/mosaic-node-generator.svg?branch=master)](https://travis-ci.org/Dellos7/mosaic-node-generator)
+
 # mosaic-node-generator
 A Node module to generate mosaic images.
 
