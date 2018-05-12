@@ -1,0 +1,26 @@
+{
+  "name": "mosaic-node-generator",
+  "version": "0.0.1",
+  "description": "A Node module to generate mosaic images.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "mocha --reporter spec",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dellos7/mosaic-node-generator.git"
+  },
+  "author": "David López Castellote",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dellos7/mosaic-node-generator/issues"
+  },
+  "homepage": "https://github.com/Dellos7/mosaic-node-generator#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.1.1",
+    "typescript": "^2.8.3"
+  }
+}
