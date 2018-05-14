@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+photos/
+output*
+
+**/.DS_Store
+.DS_Store
