@@ -34,39 +34,9 @@ function mosaic(inputImagePath, tilesDirectory, cellWidth, cellHeight, columns, 
         let mosaicImage = new mosaic_image_1.MosaicImage(image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging);
         yield mosaicImage.generate();
     });
+    _generateMosaic();
 }
 exports.mosaic = mosaic;
-/*Jimp.read( 'test/data/profile.jpg', function( err, image ) {
-    if(err) throw err;
-    const _genMosaic1 = async() => {
-        let mosaicService = new MosaicService( image, 'photos' );
-        await mosaicService.generateMosaicImage();
-        console.log('DONE GEN MOSAIC 1');
-        Jimp.read( 'test/data/input-image_.jpg', function(err2, image2) {
-            if(err2) throw err2;
-            const _genMosaic2 = async() => {
-                mosaicService = new MosaicService( image2, 'photos' );
-                await mosaicService.generateMosaicImage();
-                console.log('DONE GEN MOSAIC 2');
-            };
-            _genMosaic2();
-        });
-    };
-    _genMosaic1();
-});*/
-const generateMosaic = () => __awaiter(this, void 0, void 0, function* () {
-    let image = new jimp_image_1.JimpImage(yield jimp_image_1.JimpImage.read('test/data/input-image.jpg'));
-    let mosaicImage = new mosaic_image_1.MosaicImage(image, 'photos', 50, 50, 100, 100, undefined, 'thumbs', true);
-    yield mosaicImage.generate();
-    console.log('FINISHED GENERATING MOSAIC IMAGE!');
-});
-const generateMosaic_thumbs = () => __awaiter(this, void 0, void 0, function* () {
-    let image = new jimp_image_1.JimpImage(yield jimp_image_1.JimpImage.read('test/data/profile.jpg'));
-    let mosaicImage = new mosaic_image_1.MosaicImage(image, 'photos', 50, 50, 100, 100, 'thumbs', undefined, true);
-    yield mosaicImage.generate();
-    console.log('FINISHED GENERATING MOSAIC IMAGE!');
-});
-generateMosaic_thumbs();
 /**
  * TODOS:
  * 3. ¿Threading?

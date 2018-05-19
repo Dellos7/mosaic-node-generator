@@ -7,6 +7,12 @@ class JimpImage {
     constructor(image) {
         this.image = image;
     }
+    /**
+     * Static method
+     * Convert the image to Jimp image from path
+     * Usage: JimpImage.read( 'input-image.jpg' );
+     * @param path
+     */
     static read(path) {
         return new Promise((resolve, reject) => {
             Jimp.read(path, function (err, image) {
@@ -26,9 +32,18 @@ class JimpImage {
             });
         });
     }
+    /**
+     * Convert the image to Jimp image from path
+     * Usage: JimpImage.read( 'input-image.jpg' );
+     * @param path
+     */
     read(path) {
         return JimpImage.read(path);
     }
+    /**
+     * Write the image to disk
+     * @param imageName
+     */
     save(imageName) {
         return new Promise((resolve, reject) => {
             let outputImageName = '';
@@ -43,9 +58,20 @@ class JimpImage {
             });
         });
     }
+    /**
+     * Resize the image to the new width and height
+     * @param newWidth
+     * @param newHeight
+     */
     resize(newWidth, newHeight) {
         this.image.resize(newWidth, newHeight);
     }
+    /**
+     * Paste the given image to the given x and y cords
+     * @param image
+     * @param x
+     * @param y
+     */
     composite(image, x, y) {
         if (image instanceof JimpImage) {
             let img = image;
@@ -55,6 +81,13 @@ class JimpImage {
             throw new Error('image is not an instance of JimpImage');
         }
     }
+    /**
+     * Get the average color of the specified area of the image
+     * @param x_start left-top corner x cord of the area
+     * @param y_start left-top corner y cord of the area
+     * @param width width in pixels of the area
+     * @param height height in pixels of the area
+     */
     getAverageColor(x_start = 0, y_start = 0, width = this.image.bitmap.width, height = this.image.bitmap.height) {
         let self = this;
         return new Promise((resolve, reject) => {
@@ -74,12 +107,21 @@ class JimpImage {
             });
         });
     }
+    /**
+     * Get the width in pixels of the image
+     */
     getWidth() {
         return this.image.bitmap.width;
     }
+    /**
+     * Get the height in pixels of the image
+     */
     getHeight() {
         return this.image.bitmap.height;
     }
+    /**
+     * Get the aspect ratio (width/height) of the image
+     */
     getAspectRatio() {
         return this.getWidth() / this.getHeight();
     }

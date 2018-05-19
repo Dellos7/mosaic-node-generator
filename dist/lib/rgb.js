@@ -6,6 +6,10 @@ class RGB {
         this.g = g;
         this.b = b;
     }
+    /**
+     * Calculates the euclidean color distance with another color https://en.wikipedia.org/wiki/Color_difference
+     * @param rgb
+     */
     getColorDistance(rgb) {
         let diff_r = rgb.r - this.r;
         let diff_g = rgb.g - this.g;

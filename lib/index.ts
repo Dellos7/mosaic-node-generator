@@ -34,6 +34,7 @@ export function mosaic(
             new MosaicImage( image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging );
         await mosaicImage.generate();
     };
+    _generateMosaic();
 }
 
 export { Image, JimpImage, MosaicImage, RGB, CONFIG };

@@ -106,7 +106,6 @@ class MosaicImage {
      */
     _readThumbs() {
         return new Promise((resolve, reject) => {
-            console.log('thumbs read');
             if (this.thumbsDirectoryFromRead) {
                 let i = 0;
                 let numberOfThumbs = fs.readdirSync(this.thumbsDirectoryFromRead).length;
