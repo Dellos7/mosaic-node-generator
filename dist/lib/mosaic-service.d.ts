@@ -1,11 +1,5 @@
 import * as Jimp from 'jimp';
-export declare class RGB {
-    r: number;
-    g: number;
-    b: number;
-    constructor(r: number, g: number, b: number);
-    getColorDistance(rgb: RGB): number;
-}
+import { RGB } from './rgb';
 export declare class MosaicService {
     private default_cell_width;
     private default_cell_height;

@@ -1,4 +1,5 @@
-import { MosaicService, RGB } from './../../lib/mosaic-service';
+import { MosaicService } from './../../lib/mosaic-service';
+import { RGB } from './../../lib/rgb';
 import { expect, assert } from 'chai';
 import 'mocha';
 import * as Jimp from 'jimp';

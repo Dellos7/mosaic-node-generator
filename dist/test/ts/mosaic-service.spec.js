@@ -66,15 +66,17 @@ describe('MosaicService', function () {
         console.log('END');
         done();
     }).timeout(0);*/
-    it('generateMosaicImage, should generate mosaic image', (done) => {
-        console.log('generateMosaicImage, should generate mosaic image');
+    /*it( 'generateMosaicImage, should generate mosaic image', (done) => {
+        console.log( 'generateMosaicImage, should generate mosaic image' );
         //let mosaicService = new MosaicService( imageCopy, 'test/data/tiles' );
-        let mosaicService = new mosaic_service_1.MosaicService(imageCopy, 'photos');
-        mosaicService.generateMosaicImage().then(() => {
-            console.log('DONE!');
-            done();
-        });
-    }).timeout(0);
+        let mosaicService = new MosaicService( imageCopy, 'photos' );
+        mosaicService.generateMosaicImage().then(
+            () => {
+                console.log('DONE!');
+                done();
+            }
+        );
+    }).timeout(0);*/
     /*it( 'getBestTileForImage, should get best tile for image', (done) => {
         //let mosaicService = new MosaicService( imageCopy, 'photos' );
         let mosaicService = new MosaicService( imageCopy, 'test/data/tiles' );

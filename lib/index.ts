@@ -1,52 +1,45 @@
-import { MosaicService } from './mosaic-service';
+import { CONFIG } from './mosaic-default-config.json';
+import { RGB } from './rgb';
+import { Image } from './image';
+import { JimpImage } from './jimp-image';
+import { MosaicImage } from './mosaic-image';
 import * as Jimp from 'jimp';
 
 /**
-* @method: Test method
-* @param {string}
-* @return {string}
-*/
-export function test (str: string) : string {
-    return 'You passed in ' + str;
-}
-
-/**
- * @method: Generates a mosaic image
- * @param {string} origImagePath The original image path
- * @param {string} tilesDirPath The tiles directory path
+ * Generates a mosaic image
+ * @param inputImagePath The path of the input image that will be used to generate the mosaic
+ * @param tilesDirectory The tiles directory we will use to read the images we will use in the mosaic generation
+ * @param cellWidth The width (in pixels) of each cell in the mosaic
+ * @param cellHeight The height (in pixels) of each cell in the mosaic
+ * @param columns The number of columns (of tiles) of the mosaic
+ * @param rows The number of rows (of tiles) of the mosaic
+ * @param thumbsDirectoryFromRead We will use this folder in order to read the already generated thumbs from it
+ * @param thumbsDirectoryToWrite We will use this folder in order to write the generated thumbs of the tiles
+ * @param enableConsoleLogging Enable console logging
  */
 export function mosaic(
-    origImagePath: string,
-    tilesDirPath: string
+    inputImagePath: string,
+    tilesDirectory?: string,
+    cellWidth?: number, 
+    cellHeight?: number, 
+    columns?: number, 
+    rows?: number,
+    thumbsDirectoryFromRead?: string,
+    thumbsDirectoryToWrite?: string,
+    enableConsoleLogging: boolean = true
 ) {
-    console.log('Generating mosaic image...');
-    return null;
+    const _generateMosaic = async() => {
+        let image: Image = new JimpImage( await JimpImage.read( inputImagePath ) );
+        let mosaicImage = 
+            new MosaicImage( image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging );
+        await mosaicImage.generate();
+    };
 }
 
-Jimp.read( 'test/data/profile.jpg', function( err, image ) {
-    if(err) throw err;
-    const _genMosaic1 = async() => {
-        let mosaicService = new MosaicService( image, 'photos' ); 
-        await mosaicService.generateMosaicImage();
-        console.log('DONE GEN MOSAIC 1');
-        Jimp.read( 'test/data/input-image_.jpg', function(err2, image2) {
-            if(err2) throw err2;
-            const _genMosaic2 = async() => {
-                mosaicService = new MosaicService( image2, 'photos' );
-                await mosaicService.generateMosaicImage();
-                console.log('DONE GEN MOSAIC 2');
-            };
-            _genMosaic2();
-        });
-    };
-    _genMosaic1();
-});
-
+export { Image, JimpImage, MosaicImage, RGB, CONFIG };
 
 /**
  * TODOS:
- * 1. Save thumbs
- * 2. Be able to load thumbs
  * 3. ¿Threading?
  * 4. Pass in memory max to node
  */

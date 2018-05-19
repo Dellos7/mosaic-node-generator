@@ -10,21 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Jimp = require("jimp");
 const fs = require("fs");
-class RGB {
-    constructor(r, g, b) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-    }
-    getColorDistance(rgb) {
-        let diff_r = rgb.r - this.r;
-        let diff_g = rgb.g - this.g;
-        let diff_b = rgb.b - this.b;
-        let distance = Math.sqrt(diff_r * diff_r + diff_g * diff_g + diff_b * diff_b);
-        return distance;
-    }
-}
-exports.RGB = RGB;
+const rgb_1 = require("./rgb");
 class MosaicService {
     constructor(image, tiles_dir, final_image_name, cell_width, cell_height, columns, rows) {
         this.default_cell_width = 50;
@@ -301,7 +287,7 @@ class MosaicService {
                     let red = Math.round(r / i);
                     let green = Math.round(g / i);
                     let blue = Math.round(b / i);
-                    resolve(new RGB(red, green, blue));
+                    resolve(new rgb_1.RGB(red, green, blue));
                 }
             });
         });

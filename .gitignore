@@ -61,6 +61,8 @@ typings/
 .next
 
 photos/
+photos2/
+thumbs/
 output*
 
 **/.DS_Store
