@@ -13,7 +13,7 @@ bower install mosaic-node-generator --save
 ### Javascript
 ```javascript
 var mosaic = require('mosaic-node-generator');
-var res = mosaic.test('Hey');
+var res = mosaic.mosaic( 'picture.jpg', 'pictures_folder' );
 ```
 ```sh
 Output should be 'You passed in Hey'

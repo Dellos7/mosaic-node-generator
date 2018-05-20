@@ -114,13 +114,15 @@ export class MosaicImage {
                 throw new Error('There are no tiles in the directory ' + _tilesDir);
             }
             if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Reading tiles from ${_tilesDir}, ${numberOfTiles} found...`);
-            fs.readdirSync( _tilesDir ).forEach( async (tile, i) => {
-                if(this.enableConsoleLogging) console.log(`${new Date().toString()} - [Tiles read] ${i}/${numberOfTiles}. Progress: ${this._calcProgress(i, numberOfTiles)}`);
+            let i = 0;
+            fs.readdirSync( _tilesDir ).forEach( async (tile) => {
                 let img = await JimpImage.read( _tilesDir + '/' + tile ).catch( (err) => { if(this.enableConsoleLogging) console.log( 'Warning: aborting read of ' + tile) } );
+                if(this.enableConsoleLogging) console.log(`${new Date().toString()} - [Tiles read] ${i}/${numberOfTiles}. Progress: ${this._calcProgress(i, numberOfTiles)}%`);
                 if( img ) {
                     let image: Image = new JimpImage( img );
                     image.resize( this.cellWidth, this.cellHeight );
                     this.tiles.push( image );
+                    i++;
                     if( i === numberOfTiles - 1 ) {
                         if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Finished reading tiles.`);
                         resolve( this.tiles );
