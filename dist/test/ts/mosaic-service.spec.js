@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const mosaic_service_1 = require("./../../lib/mosaic-service");
 const chai_1 = require("chai");
 require("mocha");
 const Jimp = require("jimp");
@@ -18,7 +17,7 @@ describe('MosaicService', function () {
         });
     });
     it('constructor, should correctly prepare the image, use default config', () => {
-        let mosaicService = new mosaic_service_1.MosaicService(imageCopy);
+        let mosaicService = new MosaicService(imageCopy);
         chai_1.expect(mosaicService.cell_width).equals(50, 'Assert default cell width');
         chai_1.expect(mosaicService.cell_height).equals(50, 'Assert default cell width');
         chai_1.expect(mosaicService.aspect_ratio).greaterThan(1, 'Assert aspect ratio');
@@ -33,7 +32,7 @@ describe('MosaicService', function () {
     });
     //TODO: Add more constructor tests
     it('readTiles, should correctly read the 5 tiles in the dir', (done) => {
-        let mosaicService = new mosaic_service_1.MosaicService(imageCopy, 'test/data/tiles');
+        let mosaicService = new MosaicService(imageCopy, 'test/data/tiles');
         mosaicService.readTiles().then((tiles) => {
             //expect( tiles.length ).equals(5);
             done();
@@ -42,7 +41,7 @@ describe('MosaicService', function () {
         });
     }).timeout(10000);
     it('readTiles, should not read empty dir', (done) => {
-        let mosaicService = new mosaic_service_1.MosaicService(imageCopy, 'test/data/tiles-empty-dir');
+        let mosaicService = new MosaicService(imageCopy, 'test/data/tiles-empty-dir');
         mosaicService.readTiles().then((tiles) => {
             chai_1.assert.fail('Directory should be empty');
         }).catch((err) => {

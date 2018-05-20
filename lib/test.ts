@@ -1,7 +1,8 @@
-import { mosaic } from './index';
+import { RGB } from ".";
+import { mosaic } from '../index';
 
 mosaic(
-    'test/data/tarjet.jpg',
+    'test/data/img1.jpg',
     'photos',
     50,
     50,
