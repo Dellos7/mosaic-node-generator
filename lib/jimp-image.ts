@@ -1,3 +1,5 @@
+/// <reference path="../node_modules/jimp/jimp.d.ts" />
+
 import { Image } from './image';
 import { RGB } from './rgb';
 import * as Jimp from 'jimp';

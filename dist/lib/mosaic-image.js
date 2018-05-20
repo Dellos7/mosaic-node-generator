@@ -83,17 +83,18 @@ class MosaicImage {
             }
             if (this.enableConsoleLogging)
                 console.log(`${new Date().toString()} - Reading tiles from ${_tilesDir}, ${numberOfTiles} found...`);
-            let i = 0;
-            fs.readdirSync(_tilesDir).forEach((tile) => __awaiter(this, void 0, void 0, function* () {
-                console.log(`${new Date().toString()} - [Tiles read] ${i}/${numberOfTiles}. Progress: ${this._calcProgress(i, numberOfTiles)}`);
-                let img = yield jimp_image_1.JimpImage.read(_tilesDir + '/' + tile).catch((err) => console.log('Warning: aborting read of ' + tile));
+            fs.readdirSync(_tilesDir).forEach((tile, i) => __awaiter(this, void 0, void 0, function* () {
+                if (this.enableConsoleLogging)
+                    console.log(`${new Date().toString()} - [Tiles read] ${i}/${numberOfTiles}. Progress: ${this._calcProgress(i, numberOfTiles)}`);
+                let img = yield jimp_image_1.JimpImage.read(_tilesDir + '/' + tile).catch((err) => { if (this.enableConsoleLogging)
+                    console.log('Warning: aborting read of ' + tile); });
                 if (img) {
                     let image = new jimp_image_1.JimpImage(img);
                     image.resize(this.cellWidth, this.cellHeight);
                     this.tiles.push(image);
-                    i++;
                     if (i === numberOfTiles - 1) {
-                        console.log(`${new Date().toString()} - Finished reading tiles.`);
+                        if (this.enableConsoleLogging)
+                            console.log(`${new Date().toString()} - Finished reading tiles.`);
                         resolve(this.tiles);
                     }
                 }
@@ -121,7 +122,8 @@ class MosaicImage {
                         this.tiles.push(image);
                         i++;
                         if (i === numberOfThumbs - 1) {
-                            console.log(`${new Date().toString()} - Finished reading thumbs`);
+                            if (this.enableConsoleLogging)
+                                console.log(`${new Date().toString()} - Finished reading thumbs`);
                             resolve(this.tiles);
                         }
                     }

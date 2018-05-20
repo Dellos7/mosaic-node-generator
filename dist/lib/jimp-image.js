@@ -1,4 +1,5 @@
 "use strict";
+/// <reference path="../node_modules/jimp/jimp.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
 const rgb_1 = require("./rgb");
 const Jimp = require("jimp");
@@ -20,7 +21,8 @@ class JimpImage {
                     //If this is the error, do not handle it as the api
                     //already tries to read the file twice
                     if (!err.message.includes('Invalid file signature')) {
-                        throw err;
+                        //throw err;
+                        reject(err);
                     }
                 }
                 if (!image) {
