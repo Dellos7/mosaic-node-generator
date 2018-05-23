@@ -140,23 +140,28 @@ export class MosaicImage {
         return new Promise<Image[]>( (resolve, reject) => {
             if( this.thumbsDirectoryFromRead ) {
                 let i = 0;
-                let numberOfThumbs = fs.readdirSync( this.thumbsDirectoryFromRead ).length;
-                if( numberOfThumbs === 0 ) {
-                    throw new Error('There are no thumbs in the directory ' + this.thumbsDirectoryFromRead);
-                }
-                if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Reading thumbs from ${this.thumbsDirectoryFromRead}, ${numberOfThumbs} found...`);
-                fs.readdirSync( this.thumbsDirectoryFromRead ).forEach( async (thumb) => {
-                    let img = await JimpImage.read( this.thumbsDirectoryFromRead + '/' + thumb ).catch( (err) => console.log( 'Warning: aborting read of ' + thumb) );
-                    if( img ) {
-                        let image: Image = new JimpImage( img );
-                        this.tiles.push( image );
-                        i++;
-                        if( i === numberOfThumbs - 1 ) {
-                            if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Finished reading thumbs`);
-                            resolve( this.tiles );
-                        }
+                try {
+                    let numberOfThumbs = fs.readdirSync( this.thumbsDirectoryFromRead ).length;
+                    if( numberOfThumbs === 0 ) {
+                        throw new Error('There are no thumbs in the directory ' + this.thumbsDirectoryFromRead);
                     }
-                });
+                    if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Reading thumbs from ${this.thumbsDirectoryFromRead}, ${numberOfThumbs} found...`);
+                    fs.readdirSync( this.thumbsDirectoryFromRead ).forEach( async (thumb) => {
+                        let img = await JimpImage.read( this.thumbsDirectoryFromRead + '/' + thumb ).catch( (err) => console.log( 'Warning: aborting read of ' + thumb) );
+                        if( img ) {
+                            let image: Image = new JimpImage( img );
+                            this.tiles.push( image );
+                            i++;
+                            if( i === numberOfThumbs - 1 ) {
+                                if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Finished reading thumbs`);
+                                resolve( this.tiles );
+                            }
+                        }
+                    });
+                }
+                catch( err ) {
+                    reject(err);
+                }
             }
             else {
                 throw new Error('Thumb directory not specified');
@@ -185,13 +190,17 @@ export class MosaicImage {
      * Decides to read the tiles or read the thumbnails
      * @param tilesDirectory 
      */
-    public readTiles( tilesDirectory?: string ): Promise<Image[]> {        
-        if( this.thumbsDirectoryFromRead ) {
-            return this._readThumbs();
-        }
-        else {
-            return this._readTiles( tilesDirectory );
-        } 
+    public readTiles( tilesDirectory?: string ): Promise<Image[]> {  
+        return new Promise<Image[]>( (resolve, reject) => {
+            if( this.thumbsDirectoryFromRead ) {
+                this._readThumbs().then( (imgs) => resolve(imgs) ).catch( (err) => reject(err) );
+                //return this._readThumbs();
+            }
+            else {
+                this._readTiles( tilesDirectory ).then( (imgs) => resolve(imgs) ).catch( (err) => reject(err) ) ;
+                //return this._readTiles( tilesDirectory );
+            } 
+        });      
     }
 
     /**
@@ -306,13 +315,13 @@ export class MosaicImage {
         return new Promise<any>( (resolve, reject) => {
             const _generate = async () => {
                 //First, we read the tiles from disk
-                await this.readTiles();
+                await this.readTiles().catch( (err) => Promise.reject(err) );
                 if( this.tiles.length > 0 ) {
                     //Then we process the image and generate the mosaic
-                    await this.processRowsAndColumns( 0, 0, this.rows, this.columns );
+                    await this.processRowsAndColumns( 0, 0, this.rows, this.columns ).catch( (err) => Promise.reject(err) );
                     console.log('Saving mosaic image...');
                     //Save the image in disk
-                    let outputImageName = await this.image.save();
+                    let outputImageName = await this.image.save().catch( (err) => Promise.reject(err) );
                     console.log('Mosaic image saved! --> ' + outputImageName);
                     //Finally we generate the thumbs folder in order to save time in following executions
                     this.generateThumbs();
@@ -322,7 +331,7 @@ export class MosaicImage {
                     reject(`Tiles were not loaded`);
                 }
             };
-            _generate();
+            _generate().catch( (err) => { reject(err)} );
         });
     }
 

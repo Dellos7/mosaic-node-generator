@@ -21,7 +21,7 @@ class JimpImage {
                     //If this is the error, do not handle it as the api
                     //already tries to read the file twice
                     if (!err.message.includes('Invalid file signature')) {
-                        //throw err;
+                        console.log('throwing error');
                         reject(err);
                     }
                 }
@@ -55,8 +55,13 @@ class JimpImage {
             else {
                 outputImageName = mosaic_default_config_json_1.CONFIG.output_image_name + '_' + new Date().getTime() + '.jpg';
             }
-            this.image.write(outputImageName, () => {
-                resolve(outputImageName);
+            this.image.write(outputImageName, (err, _) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(outputImageName);
+                }
             });
         });
     }

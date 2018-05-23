@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,6 +17,7 @@ const jimp_image_1 = require("./lib/jimp-image");
 exports.JimpImage = jimp_image_1.JimpImage;
 const mosaic_image_1 = require("./lib/mosaic-image");
 exports.MosaicImage = mosaic_image_1.MosaicImage;
+const utility_1 = require("./lib/utility");
 /**
  * Generates a mosaic image
  * @param inputImagePath The path of the input image that will be used to generate the mosaic
@@ -30,15 +32,63 @@ exports.MosaicImage = mosaic_image_1.MosaicImage;
  */
 function mosaic(inputImagePath, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging = true) {
     const _generateMosaic = () => __awaiter(this, void 0, void 0, function* () {
-        let image = new jimp_image_1.JimpImage(yield jimp_image_1.JimpImage.read(inputImagePath));
-        let mosaicImage = new mosaic_image_1.MosaicImage(image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging);
-        yield mosaicImage.generate();
+        let [err, img] = yield utility_1.catchEm(jimp_image_1.JimpImage.read(inputImagePath));
+        if (err) {
+            console.error(err);
+        }
+        else {
+            let image = new jimp_image_1.JimpImage(img);
+            let mosaicImage = new mosaic_image_1.MosaicImage(image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging);
+            let [err, _] = yield utility_1.catchEm(mosaicImage.generate());
+            if (err) {
+                console.error(err);
+            }
+        }
     });
     _generateMosaic();
 }
 exports.mosaic = mosaic;
 /**
- * TODOS:
- * 3. ¿Threading?
- * 4. Pass in memory max to node
- */ 
+ * Get parameters if we are executing the script directly from CLI
+ */
+const args = process.argv.slice(2);
+const argNames = ['image_path', 'tiles_dir', 'cell_width', 'cell_height',
+    'columns', 'rows', 'thumbs_read', 'thumbs_write', 'enable_log'];
+let imagePath = '', tilesDir, cellWidth, cellHeight, columns, rows, thumbsRead, thumbsWrite, enableLog;
+args.forEach((val, index) => {
+    let [argName, argVal] = val.split("=");
+    let i = argNames.indexOf(argName);
+    if (i >= 0) {
+        argNames.splice(i, 1);
+        switch (argName) {
+            case "image_path":
+                imagePath = argVal;
+                break;
+            case "tiles_dir":
+                tilesDir = argVal;
+                break;
+            case "cell_width":
+                cellWidth = argVal;
+                break;
+            case "cell_height":
+                cellHeight = argVal;
+                break;
+            case "columns":
+                columns = argVal;
+                break;
+            case "rows":
+                rows = argVal;
+                break;
+            case "thumbs_read":
+                thumbsRead = argVal;
+                break;
+            case "thumbs_write":
+                thumbsWrite = argVal;
+                break;
+            case "enable_log":
+                enableLog = argVal;
+                break;
+        }
+    }
+});
+mosaic(imagePath, tilesDir, cellWidth, cellHeight, columns, rows, thumbsRead, thumbsWrite, enableLog);

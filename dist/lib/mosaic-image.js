@@ -111,25 +111,30 @@ class MosaicImage {
         return new Promise((resolve, reject) => {
             if (this.thumbsDirectoryFromRead) {
                 let i = 0;
-                let numberOfThumbs = fs.readdirSync(this.thumbsDirectoryFromRead).length;
-                if (numberOfThumbs === 0) {
-                    throw new Error('There are no thumbs in the directory ' + this.thumbsDirectoryFromRead);
-                }
-                if (this.enableConsoleLogging)
-                    console.log(`${new Date().toString()} - Reading thumbs from ${this.thumbsDirectoryFromRead}, ${numberOfThumbs} found...`);
-                fs.readdirSync(this.thumbsDirectoryFromRead).forEach((thumb) => __awaiter(this, void 0, void 0, function* () {
-                    let img = yield jimp_image_1.JimpImage.read(this.thumbsDirectoryFromRead + '/' + thumb).catch((err) => console.log('Warning: aborting read of ' + thumb));
-                    if (img) {
-                        let image = new jimp_image_1.JimpImage(img);
-                        this.tiles.push(image);
-                        i++;
-                        if (i === numberOfThumbs - 1) {
-                            if (this.enableConsoleLogging)
-                                console.log(`${new Date().toString()} - Finished reading thumbs`);
-                            resolve(this.tiles);
-                        }
+                try {
+                    let numberOfThumbs = fs.readdirSync(this.thumbsDirectoryFromRead).length;
+                    if (numberOfThumbs === 0) {
+                        throw new Error('There are no thumbs in the directory ' + this.thumbsDirectoryFromRead);
                     }
-                }));
+                    if (this.enableConsoleLogging)
+                        console.log(`${new Date().toString()} - Reading thumbs from ${this.thumbsDirectoryFromRead}, ${numberOfThumbs} found...`);
+                    fs.readdirSync(this.thumbsDirectoryFromRead).forEach((thumb) => __awaiter(this, void 0, void 0, function* () {
+                        let img = yield jimp_image_1.JimpImage.read(this.thumbsDirectoryFromRead + '/' + thumb).catch((err) => console.log('Warning: aborting read of ' + thumb));
+                        if (img) {
+                            let image = new jimp_image_1.JimpImage(img);
+                            this.tiles.push(image);
+                            i++;
+                            if (i === numberOfThumbs - 1) {
+                                if (this.enableConsoleLogging)
+                                    console.log(`${new Date().toString()} - Finished reading thumbs`);
+                                resolve(this.tiles);
+                            }
+                        }
+                    }));
+                }
+                catch (err) {
+                    reject(err);
+                }
             }
             else {
                 throw new Error('Thumb directory not specified');
@@ -160,12 +165,16 @@ class MosaicImage {
      * @param tilesDirectory
      */
     readTiles(tilesDirectory) {
-        if (this.thumbsDirectoryFromRead) {
-            return this._readThumbs();
-        }
-        else {
-            return this._readTiles(tilesDirectory);
-        }
+        return new Promise((resolve, reject) => {
+            if (this.thumbsDirectoryFromRead) {
+                this._readThumbs().then((imgs) => resolve(imgs)).catch((err) => reject(err));
+                //return this._readThumbs();
+            }
+            else {
+                this._readTiles(tilesDirectory).then((imgs) => resolve(imgs)).catch((err) => reject(err));
+                //return this._readTiles( tilesDirectory );
+            }
+        });
     }
     /**
      * This is the core function. For each cell (row,col) of the image, it calculates the average color of that zone
@@ -274,13 +283,13 @@ class MosaicImage {
         return new Promise((resolve, reject) => {
             const _generate = () => __awaiter(this, void 0, void 0, function* () {
                 //First, we read the tiles from disk
-                yield this.readTiles();
+                yield this.readTiles().catch((err) => Promise.reject(err));
                 if (this.tiles.length > 0) {
                     //Then we process the image and generate the mosaic
-                    yield this.processRowsAndColumns(0, 0, this.rows, this.columns);
+                    yield this.processRowsAndColumns(0, 0, this.rows, this.columns).catch((err) => Promise.reject(err));
                     console.log('Saving mosaic image...');
                     //Save the image in disk
-                    let outputImageName = yield this.image.save();
+                    let outputImageName = yield this.image.save().catch((err) => Promise.reject(err));
                     console.log('Mosaic image saved! --> ' + outputImageName);
                     //Finally we generate the thumbs folder in order to save time in following executions
                     this.generateThumbs();
@@ -290,7 +299,7 @@ class MosaicImage {
                     reject(`Tiles were not loaded`);
                 }
             });
-            _generate();
+            _generate().catch((err) => { reject(err); });
         });
     }
 }
