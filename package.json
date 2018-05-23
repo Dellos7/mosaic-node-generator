@@ -10,6 +10,9 @@
     "test:ts": "mocha -r ts-node/register test/ts/**/*.spec.ts --max_old_space_size=6144 --optimize_for_size --max_executable_size=6144 --stack_size=6144 --max_new_space_size=6144",
     "test:js": "mocha --reporter spec test/js/**/*.spec.js"
   },
+  "bin": {
+    "mosaic-node-generator": "dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dellos7/mosaic-node-generator.git"
