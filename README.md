@@ -57,18 +57,30 @@ function mosaic(
 
 ## CLI usage
 
+### Install
+
 Install npm package as global:
 
 ```sh
 npm install mosaic-node-generator -g
 ```
 
-Use the CLI tool:
+### Usage
+
+Basic usage. Create mosaic from input image and pictures folder. Write the generated thumbs from the pictures so next time we can just read the thumbs and not the pictures again:
+
 ```sh
-mosaic-node-generator image_path=photo.jpg tiles_dir=pictures_folder
+mosaic-node-generator image_path=photo.jpg tiles_dir=pictures_folder thumbs_write=thumbs
 ```
 
-Available CLI arguments:
+Then we generate the mosaic again but this time reading from the thumbs generated from the last execution:
+
+```sh
+mosaic-node-generator image_path=photo.jpg  thumbs_read=thumbs
+```
+> We must take into account that if we have written the thumbnails using e.g `cell_width` and `cell_height` of 50x50 and then we generate again the mosaic reading from these thumbs, we should use a `cell_width` and `cell_height` of 50x50 again.
+
+All available CLI arguments:
 
 * **image_path**: The path of the input image that will be used to generate the mosaic.
 * **tiles_dir**: The tiles directory we will use to read the images we will use in the mosaic generation
