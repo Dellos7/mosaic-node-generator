@@ -54,7 +54,9 @@ exports.mosaic = mosaic;
 const args = process.argv.slice(2);
 const argNames = ['image_path', 'tiles_dir', 'cell_width', 'cell_height',
     'columns', 'rows', 'thumbs_read', 'thumbs_write', 'enable_log'];
-let imagePath = '', tilesDir, cellWidth, cellHeight, columns, rows, thumbsRead, thumbsWrite, enableLog;
+let imagePath = 'input.jpg', tilesDir = '', thumbsRead = '', thumbsWrite = '';
+let cellWidth = 50, cellHeight = 50, columns = 100, rows = 100;
+let enableLog = true;
 args.forEach((val, index) => {
     let [argName, argVal] = val.split("=");
     let i = argNames.indexOf(argName);
@@ -68,16 +70,16 @@ args.forEach((val, index) => {
                 tilesDir = argVal;
                 break;
             case "cell_width":
-                cellWidth = argVal;
+                cellWidth = Number.parseInt(argVal);
                 break;
             case "cell_height":
-                cellHeight = argVal;
+                cellHeight = Number.parseInt(argVal);
                 break;
             case "columns":
-                columns = argVal;
+                columns = Number.parseInt(argVal);
                 break;
             case "rows":
-                rows = argVal;
+                rows = Number.parseInt(argVal);
                 break;
             case "thumbs_read":
                 thumbsRead = argVal;
@@ -86,7 +88,7 @@ args.forEach((val, index) => {
                 thumbsWrite = argVal;
                 break;
             case "enable_log":
-                enableLog = argVal;
+                enableLog = argVal ? true : false;
                 break;
         }
     }

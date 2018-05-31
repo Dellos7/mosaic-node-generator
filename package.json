@@ -1,13 +1,13 @@
 {
   "name": "mosaic-node-generator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A Node module to generate mosaic images.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "npm run test:ts && npm run test:js",
     "build": "tsc",
-    "test:ts": "mocha -r ts-node/register test/ts/**/*.spec.ts --max_old_space_size=6144 --optimize_for_size --max_executable_size=6144 --stack_size=6144 --max_new_space_size=6144",
+    "test:ts": "mocha -r ts-node/register test/ts/**/*.spec.ts",
     "test:js": "mocha --reporter spec test/js/**/*.spec.js"
   },
   "bin": {
@@ -32,7 +32,7 @@
     "creator",
     "generate",
     "generator",
-    "node"   
+    "node"
   ],
   "devDependencies": {
     "@types/chai": "^4.1.3",

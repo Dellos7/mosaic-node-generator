@@ -14,14 +14,6 @@ describe('MosaicImage', function() {
         image = new JimpImage( await JimpImage.read( imagePath ) );
     });
 
-    it( 'readTiles, should correctly read the 5 tiles in the dir', async() => {
-        let mosaicImage: MosaicImage = new MosaicImage( image, 'test/data/tiles' );
-        mosaicImage.enableConsoleLogging = false;
-        let tiles: Image[] = await mosaicImage.readTiles();
-        expect(tiles.length).equals(5);
-    //}).timeout(10000);
-});
-
     it( 'readTiles, should not read empty dir', async() => {
         try {
             let mosaicImage: MosaicImage = new MosaicImage( image, 'test/data/tiles' );
@@ -33,4 +25,13 @@ describe('MosaicImage', function() {
             expect(true).to.be.true;
         }
     });
+
+    it( 'readTiles, should correctly read the 5 tiles in the dir', async() => {
+        let mosaicImage: MosaicImage = new MosaicImage( image, 'test/data/tiles' );
+        mosaicImage.enableConsoleLogging = false;
+        let tiles: Image[] = await mosaicImage.readTiles();
+        expect(tiles.length).equals(5);
+    //}).timeout(10000);
+});
+
 });

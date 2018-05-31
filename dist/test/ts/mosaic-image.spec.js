@@ -21,13 +21,6 @@ describe('MosaicImage', function () {
             image = new jimp_image_1.JimpImage(yield jimp_image_1.JimpImage.read(imagePath));
         });
     });
-    it('readTiles, should correctly read the 5 tiles in the dir', () => __awaiter(this, void 0, void 0, function* () {
-        let mosaicImage = new mosaic_image_1.MosaicImage(image, 'test/data/tiles');
-        mosaicImage.enableConsoleLogging = false;
-        let tiles = yield mosaicImage.readTiles();
-        chai_1.expect(tiles.length).equals(5);
-        //}).timeout(10000);
-    }));
     it('readTiles, should not read empty dir', () => __awaiter(this, void 0, void 0, function* () {
         try {
             let mosaicImage = new mosaic_image_1.MosaicImage(image, 'test/data/tiles');
@@ -38,5 +31,12 @@ describe('MosaicImage', function () {
         catch (err) {
             chai_1.expect(true).to.be.true;
         }
+    }));
+    it('readTiles, should correctly read the 5 tiles in the dir', () => __awaiter(this, void 0, void 0, function* () {
+        let mosaicImage = new mosaic_image_1.MosaicImage(image, 'test/data/tiles');
+        mosaicImage.enableConsoleLogging = false;
+        let tiles = yield mosaicImage.readTiles();
+        chai_1.expect(tiles.length).equals(5);
+        //}).timeout(10000);
     }));
 });
