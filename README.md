@@ -7,7 +7,10 @@ A Node module to generate mosaic images.
 
 [<img src="https://drive.google.com/uc?export=view&id=1oLhHmgpB4XiW_8KA3BQu46FzI7D75MDw" width="300" />](https://drive.google.com/file/d/1oLhHmgpB4XiW_8KA3BQu46FzI7D75MDw/view?usp=sharing)
 
-## Installation 
+## Installation
+
+You must have [Node.js](https://nodejs.org/es/) installed in your system.
+
 ```sh
 npm install mosaic-node-generator --save
 yarn add mosaic-node-generator
