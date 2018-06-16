@@ -3,9 +3,9 @@
 # mosaic-node-generator
 A Node module to generate mosaic images.
 
-[<img src="https://drive.google.com/uc?export=view&id=19bJzCWHChPP3xPHzGqq3mzruxZEdMOfz" width="300" align="left" />](https://drive.google.com/file/d/19bJzCWHChPP3xPHzGqq3mzruxZEdMOfz/view?usp=sharing)
+[<img src="https://github.com/Dellos7/mosaic-node-generator-example/raw/master/input.jpg" width="300" align="left" />](https://github.com/Dellos7/mosaic-node-generator-example/raw/master/input.jpg)
 
-[<img src="https://drive.google.com/uc?export=view&id=1oLhHmgpB4XiW_8KA3BQu46FzI7D75MDw" width="300" />](https://drive.google.com/file/d/1oLhHmgpB4XiW_8KA3BQu46FzI7D75MDw/view?usp=sharing)
+[<img src="https://github.com/Dellos7/mosaic-node-generator-example/blob/master/outputs/output_rc-100_30x30.jpg" width="300" />](https://github.com/Dellos7/mosaic-node-generator-example/blob/master/outputs/output_rc-100_30x30.jpg)
 
 ## Installation
 
@@ -25,6 +25,10 @@ Using **bower**:
 ```sh
 bower install mosaic-node-generator --save
 ```
+
+## Example
+
+Example: [mosaic-node-generator-example](https://github.com/Dellos7/mosaic-node-generator-example)
 
 ## Code usage
 
