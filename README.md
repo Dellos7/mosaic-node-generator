@@ -11,11 +11,21 @@ A Node module to generate mosaic images.
 
 You must have [Node.js](https://nodejs.org/es/) installed in your system.
 
+Using **npm**:
 ```sh
 npm install mosaic-node-generator --save
+```
+
+Using **yarn**:
+```sh
 yarn add mosaic-node-generator
+```
+
+Using **bower**:
+```sh
 bower install mosaic-node-generator --save
 ```
+
 ## Code usage
 
 ### Javascript
