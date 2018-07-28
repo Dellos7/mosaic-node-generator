@@ -94,11 +94,14 @@ class MosaicImage {
                     image.resize(this.cellWidth, this.cellHeight);
                     this.tiles.push(image);
                     i++;
-                    if (i === numberOfTiles) {
-                        if (this.enableConsoleLogging)
-                            console.log(`${new Date().toString()} - Finished reading tiles.`);
-                        resolve(this.tiles);
-                    }
+                }
+                else {
+                    i++;
+                }
+                if (i === numberOfTiles) {
+                    if (this.enableConsoleLogging)
+                        console.log(`${new Date().toString()} - Finished reading tiles.`);
+                    resolve(this.tiles);
                 }
             }));
         });
