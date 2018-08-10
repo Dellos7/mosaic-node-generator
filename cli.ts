@@ -1,64 +1,74 @@
 #!/usr/bin/env node
 
 import { mosaic } from './index';
+import * as commander from 'commander';
+
+let checkArguments = (
+    inputImage: string,
+    tilesDirectory: string,
+    thumbsReadDirectory: string,
+    thumbsWriteDirectory: string,
+    cellWidth: number,
+    cellHeight: number,
+    rows: number,
+    columns: number
+) => {
+    if( !inputImage ) {
+        console.log('Error: option -i, --input-image <image_path> missing');
+        process.exit();
+    }
+    if( !tilesDirectory && !thumbsReadDirectory ) {
+        console.log('Error: you need to specify either -d, --tiles-directory or -tr, --thumbs-read');
+        process.exit();
+    }
+};
 
 /**
  * Get parameters if we are executing the script directly from CLI
  */
 
-const args = process.argv.slice(2);
-const argNames = 
-    [ 'image_path', 'tiles_dir', 'cell_width', 'cell_height', 
-        'columns', 'rows', 'thumbs_read', 'thumbs_write', 'enable_log' ];
+commander
+ .version('1.1.5')
+ .option('-i, --input-image [input_image]', 'The input image path')
+ .option('-d, --tiles-directory [tiles_directory]', 'The tiles directory path')
+ .option('-R, --thumbs-read [thumbs_read_directory]', 'The thumbnails read directory')
+ .option('-W, --thumbs-write [thumbs_write_directory]', 'The thumbnails write directory')
+ .option('-r, --rows [rows]', 'The number of rows of the output image')
+ .option('-c, --columns [columns]', 'The number of columns of the output image')
+ .option('-w, --cell-width [width]', 'The cell width of each cell of the output image')
+ .option('-h, --cell-height [height]', 'The cell height of each cell of the output image')
+ .option('-l, --disable-log [true/false]', 'Disable console logging')
+ .parse(process.argv);
 
-let imagePath: string = 'input.jpg', tilesDir: string = '', thumbsRead: string = '', thumbsWrite: string = '';
-let cellWidth: number = 50, cellHeight: number = 50, columns: number = 100, rows: number = 100;
-let enableLog: boolean = true;
-args.forEach( (val, index) => {
-    let [argName, argVal] = val.split("=");
-    let i = argNames.indexOf( argName );
-    if( i >= 0 ) {
-        argNames.splice(i, 1);
-        switch( argName ) {
-            case "image_path":
-                imagePath = argVal;
-                break;
-            case "tiles_dir":
-                tilesDir = argVal;
-                break;
-            case "cell_width":
-                cellWidth = Number.parseInt(argVal);
-                break;
-            case "cell_height":
-                cellHeight = Number.parseInt(argVal);
-                break;
-            case "columns":
-                columns = Number.parseInt(argVal);
-                break;
-            case "rows":
-                rows = Number.parseInt(argVal);
-                break;
-            case "thumbs_read":
-                thumbsRead = argVal;
-                break;
-            case "thumbs_write":
-                thumbsWrite = argVal;
-                break;
-            case "enable_log":
-                enableLog = argVal ? true : false;
-                break;
-        }
-    }
-});
+ let inputImage: string = commander.inputImage;
+ let tilesDirectory: string = commander.tilesDirectory;
+ let thumbsReadDirectory: string = commander.thumbsRead;
+ let thumbsWriteDirectory: string = commander.thumbsWrite;
+ let cellWidth: number = Number.parseInt(commander.cellWidth);
+ let cellHeight: number = Number.parseInt(commander.cellHeight);
+ let columns: number = Number.parseInt(commander.columns);
+ let rows: number = Number.parseInt(commander.rows);
+ let enableLog: boolean = commander.disableLog ? false : true;
+
+ checkArguments(
+    inputImage,
+    tilesDirectory,
+    thumbsReadDirectory,
+    thumbsWriteDirectory,
+    cellWidth,
+    cellHeight,
+    columns,
+    rows
+ );
 
 mosaic(
-    imagePath,
-    tilesDir,
+    inputImage,
+    tilesDirectory,
     cellWidth,
     cellHeight,
     columns,
     rows,
-    thumbsRead,
-    thumbsWrite,
+    thumbsReadDirectory,
+    thumbsWriteDirectory,
     enableLog
 );

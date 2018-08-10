@@ -1,6 +1,6 @@
 {
   "name": "mosaic-node-generator",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "A Node module to generate mosaic images.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@types/node": "^6.0.110",
+    "commander": "^2.16.0",
     "jimp": "^0.2.28"
   }
 }

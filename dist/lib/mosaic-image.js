@@ -127,11 +127,14 @@ class MosaicImage {
                             let image = new jimp_image_1.JimpImage(img);
                             this.tiles.push(image);
                             i++;
-                            if (i === numberOfThumbs - 1) {
-                                if (this.enableConsoleLogging)
-                                    console.log(`${new Date().toString()} - Finished reading thumbs`);
-                                resolve(this.tiles);
-                            }
+                        }
+                        else {
+                            i++;
+                        }
+                        if (i === numberOfThumbs - 1) {
+                            if (this.enableConsoleLogging)
+                                console.log(`${new Date().toString()} - Finished reading thumbs`);
+                            resolve(this.tiles);
                         }
                     }));
                 }
@@ -171,11 +174,9 @@ class MosaicImage {
         return new Promise((resolve, reject) => {
             if (this.thumbsDirectoryFromRead) {
                 this._readThumbs().then((imgs) => resolve(imgs)).catch((err) => reject(err));
-                //return this._readThumbs();
             }
             else {
                 this._readTiles(tilesDirectory).then((imgs) => resolve(imgs)).catch((err) => reject(err));
-                //return this._readTiles( tilesDirectory );
             }
         });
     }
@@ -293,7 +294,8 @@ class MosaicImage {
                     console.log('Saving mosaic image...');
                     //Save the image in disk
                     let outputImageName = yield this.image.save().catch((err) => Promise.reject(err));
-                    console.log('Mosaic image saved! --> ' + outputImageName);
+                    if (this.enableConsoleLogging)
+                        console.log('Mosaic image saved! --> ' + outputImageName);
                     //Finally we generate the thumbs folder in order to save time in following executions
                     this.generateThumbs();
                     resolve();
