@@ -16,16 +16,6 @@ Using **npm**:
 npm install mosaic-node-generator --save
 ```
 
-Using **yarn**:
-```sh
-yarn add mosaic-node-generator
-```
-
-Using **bower**:
-```sh
-bower install mosaic-node-generator --save
-```
-
 ## Example
 
 Example: [mosaic-node-generator-example](https://github.com/Dellos7/mosaic-node-generator-example)
@@ -88,30 +78,38 @@ npm install mosaic-node-generator -g
 
 ### Usage
 
-Basic usage. Create mosaic from input image and pictures folder. Write the generated thumbs from the pictures so next time we can just read the thumbs and not the pictures again:
+```sh
+mosaic-node-generator --help
+```
+```
+Options:
+
+-V, --version                                output the version number
+    -i, --input-image [input_image]              The input image path
+    -d, --tiles-directory [tiles_directory]      The tiles directory path
+    -R, --thumbs-read [thumbs_read_directory]    The thumbnails read directory
+    -W, --thumbs-write [thumbs_write_directory]  The thumbnails write directory
+    -r, --rows [rows]                            The number of rows of the output image
+    -c, --columns [columns]                      The number of columns of the output image
+    -w, --cell-width [width]                     The cell width of each cell of the output image
+    -h, --cell-height [height]                   The cell height of each cell of the output image
+    -l, --disable-log [true/false]               Disable console logging
+    -h, --help                                   output usage information
+```
+
+### Usage example
+Basic example. Create mosaic from input image and pictures folder. Write the generated thumbs from the pictures so next time we can just read the thumbs and not the pictures again:
 
 ```sh
-mosaic-node-generator image_path=photo.jpg tiles_dir=pictures_folder thumbs_write=thumbs
+mosaic-node-generator -i photo.jpg -d pictures_folder -W thumbs
 ```
 
 Then we generate the mosaic again but this time reading from the thumbs generated from the last execution:
 
 ```sh
-mosaic-node-generator image_path=photo.jpg  thumbs_read=thumbs
+mosaic-node-generator -i photo.jpg  -R thumbs
 ```
 > We must take into account that if we have written the thumbnails using e.g `cell_width` and `cell_height` of 50x50 and then we generate again the mosaic reading from these thumbs, we should use a `cell_width` and `cell_height` of 50x50 again.
-
-All available CLI arguments:
-
-* **image_path**: The path of the input image that will be used to generate the mosaic.
-* **tiles_dir**: The tiles directory we will use to read the images we will use in the mosaic generation
-* **cell_width**: The width (in pixels) of each cell in the mosaic
-* **cell_height**: The height (in pixels) of each cell in the mosaic
-* **columns**: The number of columns (of tiles) of the mosaic
-* **rows**: The number of rows (of tiles) of the mosaic
-* **thumbs_read**: We will use this folder in order to read the already generated thumbs from it
-* **thumbs_write**: We will use this folder in order to write the generated thumbs of the tiles
-* **enable_log**: Enable console logging
 
 ## Test 
 
