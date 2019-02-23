@@ -30,20 +30,31 @@ const utility_1 = require("./lib/utility");
  * @param enableConsoleLogging Enable console logging
  */
 function mosaic(inputImagePath, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging = true) {
-    const _generateMosaic = () => __awaiter(this, void 0, void 0, function* () {
-        let [err, img] = yield utility_1.catchEm(jimp_image_1.JimpImage.read(inputImagePath));
-        if (err) {
-            console.error(err);
-        }
-        else {
-            let image = new jimp_image_1.JimpImage(img);
-            let mosaicImage = new mosaic_image_1.MosaicImage(image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging);
-            let [err, _] = yield utility_1.catchEm(mosaicImage.generate());
+    const _generateMosaic = () => {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            let [err, img] = yield utility_1.catchEm(jimp_image_1.JimpImage.read(inputImagePath));
             if (err) {
                 console.error(err);
+                reject(err);
             }
-        }
-    });
-    _generateMosaic();
+            else {
+                let image = new jimp_image_1.JimpImage(img);
+                let mosaicImage = new mosaic_image_1.MosaicImage(image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging);
+                let [err, _] = yield utility_1.catchEm(mosaicImage.generate());
+                if (err) {
+                    console.error(err);
+                    reject(err);
+                }
+                else {
+                    resolve(_);
+                }
+            }
+        }));
+    };
+    return _generateMosaic();
 }
 exports.mosaic = mosaic;
+function test(inputImagePath) {
+    return "You passed in hey";
+}
+exports.test = test;

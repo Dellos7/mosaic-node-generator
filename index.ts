@@ -1,9 +1,9 @@
-import { CONFIG } from './lib/mosaic-default-config.json';
-import { RGB } from './lib/rgb';
-import { Image } from './lib/image';
-import { JimpImage } from './lib/jimp-image';
-import { MosaicImage } from './lib/mosaic-image';
-import { catchEm } from './lib/utility';
+import { CONFIG } from "./lib/mosaic-default-config.json";
+import { RGB } from "./lib/rgb";
+import { Image } from "./lib/image";
+import { JimpImage } from "./lib/jimp-image";
+import { MosaicImage } from "./lib/mosaic-image";
+import { catchEm } from "./lib/utility";
 
 /**
  * Generates a mosaic image
@@ -18,34 +18,51 @@ import { catchEm } from './lib/utility';
  * @param enableConsoleLogging Enable console logging
  */
 export function mosaic(
-    inputImagePath: string,
-    tilesDirectory?: string,
-    cellWidth?: number, 
-    cellHeight?: number, 
-    columns?: number, 
-    rows?: number,
-    thumbsDirectoryFromRead?: string,
-    thumbsDirectoryToWrite?: string,
-    enableConsoleLogging: boolean = true
+  inputImagePath: string,
+  tilesDirectory?: string,
+  cellWidth?: number,
+  cellHeight?: number,
+  columns?: number,
+  rows?: number,
+  thumbsDirectoryFromRead?: string,
+  thumbsDirectoryToWrite?: string,
+  enableConsoleLogging: boolean = true
 ) {
-    const _generateMosaic = async() => {
-        
-        let [err, img] = await catchEm( JimpImage.read( inputImagePath ) );
-        if( err ) {
-            console.error(err);
+  const _generateMosaic = () => {
+    return new Promise<any>(async (resolve, reject) => {
+      let [err, img] = await catchEm(JimpImage.read(inputImagePath));
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        let image: Image = new JimpImage(img);
+        let mosaicImage = new MosaicImage(
+          image,
+          tilesDirectory,
+          cellWidth,
+          cellHeight,
+          columns,
+          rows,
+          thumbsDirectoryFromRead,
+          thumbsDirectoryToWrite,
+          enableConsoleLogging
+        );
+        let [err, _] = await catchEm(mosaicImage.generate());
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          resolve(_);
         }
-        else {
-            let image: Image = new JimpImage( img );
-            let mosaicImage = 
-                new MosaicImage( image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging );
-            let [err, _] = await catchEm( mosaicImage.generate() );
-            if( err ) {
-                console.error(err);
-            }
-        }
-    };
-    
-    _generateMosaic();
+      }
+    });
+  };
+
+  return _generateMosaic();
+}
+
+export function test(inputImagePath: string) {
+  return "You passed in hey";
 }
 
 export { Image, JimpImage, MosaicImage, RGB, CONFIG };

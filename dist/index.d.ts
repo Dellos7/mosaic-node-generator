@@ -1,8 +1,8 @@
-import { CONFIG } from './lib/mosaic-default-config.json';
-import { RGB } from './lib/rgb';
-import { Image } from './lib/image';
-import { JimpImage } from './lib/jimp-image';
-import { MosaicImage } from './lib/mosaic-image';
+import { CONFIG } from "./lib/mosaic-default-config.json";
+import { RGB } from "./lib/rgb";
+import { Image } from "./lib/image";
+import { JimpImage } from "./lib/jimp-image";
+import { MosaicImage } from "./lib/mosaic-image";
 /**
  * Generates a mosaic image
  * @param inputImagePath The path of the input image that will be used to generate the mosaic
@@ -15,5 +15,6 @@ import { MosaicImage } from './lib/mosaic-image';
  * @param thumbsDirectoryToWrite We will use this folder in order to write the generated thumbs of the tiles
  * @param enableConsoleLogging Enable console logging
  */
-export declare function mosaic(inputImagePath: string, tilesDirectory?: string, cellWidth?: number, cellHeight?: number, columns?: number, rows?: number, thumbsDirectoryFromRead?: string, thumbsDirectoryToWrite?: string, enableConsoleLogging?: boolean): void;
+export declare function mosaic(inputImagePath: string, tilesDirectory?: string, cellWidth?: number, cellHeight?: number, columns?: number, rows?: number, thumbsDirectoryFromRead?: string, thumbsDirectoryToWrite?: string, enableConsoleLogging?: boolean): Promise<any>;
+export declare function test(inputImagePath: string): string;
 export { Image, JimpImage, MosaicImage, RGB, CONFIG };

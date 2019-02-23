@@ -23,14 +23,14 @@ export declare class MosaicService {
     constructor(image: Jimp.Jimp, tiles_dir?: string, final_image_name?: string, cell_width?: number, cell_height?: number, columns?: number, rows?: number);
     asyncForEach(arr: any[], cb: any): Promise<void>;
     asyncFor(n: number, cb: any): Promise<void>;
-    private _prepare();
+    private _prepare;
     readTiles(tilesDir?: string): Promise<Jimp.Jimp[]>;
     getBestTileForImage(imageAvgColor: RGB, row: number, col: number): Promise<Jimp.Jimp>;
     generateMosaicImage(tilesDir?: string): Promise<{}>;
     generateMosaicImage_new(tilesDir?: string): void;
-    private _generateMosaicImage(rowStart, colStart, numRows, numCols);
+    private _generateMosaicImage;
     cropImage(x: number, y: number, w: number, h: number): Jimp;
     save(imageName?: string): void;
-    private jimpRead(path);
+    private jimpRead;
     getImageAvgColor(image: Jimp.Jimp, x_start: number, y_start: number, width: number, height: number): Promise<RGB>;
 }
