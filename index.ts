@@ -33,6 +33,7 @@ export function mosaic(
         let [err, img] = await catchEm( JimpImage.read( inputImagePath ) );
         if( err ) {
             console.error(err);
+            throw err
         }
         else {
             let image: Image = new JimpImage( img );
@@ -41,7 +42,9 @@ export function mosaic(
             let [err, _] = await catchEm( mosaicImage.generate() );
             if( err ) {
                 console.error(err);
+                throw err
             }
+            return output
         }
     };
     

@@ -329,7 +329,7 @@ export class MosaicImage {
                     if(this.enableConsoleLogging) console.log('Mosaic image saved! --> ' + outputImageName);
                     //Finally we generate the thumbs folder in order to save time in following executions
                     this.generateThumbs();
-                    resolve();
+                    resolve(outputImageName);
                 }
                 else {
                     reject(`Tiles were not loaded`);
