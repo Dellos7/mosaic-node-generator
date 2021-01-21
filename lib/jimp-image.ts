@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/jimp/jimp.d.ts" />
+/// <reference path="../node_modules/jimp/types/ts3.1/index.d.ts" />
 
 import { Image } from './image';
 import { RGB } from './rgb';
@@ -7,9 +7,9 @@ import { CONFIG } from './mosaic-default-config.json';
 
 export class JimpImage implements Image {
 
-    public image: Jimp.Jimp;
+    public image: Jimp;
 
-    constructor( image: Jimp.Jimp ) {
+    constructor( image: Jimp ) {
         this.image = image;
     }
 

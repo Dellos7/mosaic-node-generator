@@ -17,7 +17,7 @@ let checkArguments = (inputImage, tilesDirectory, thumbsReadDirectory, thumbsWri
  * Get parameters if we are executing the script directly from CLI
  */
 commander
-    .version('1.1.4')
+    .version('1.1.5')
     .option('-i, --input-image [input_image]', 'The input image path')
     .option('-d, --tiles-directory [tiles_directory]', 'The tiles directory path')
     .option('-R, --thumbs-read [thumbs_read_directory]', 'The thumbnails read directory')

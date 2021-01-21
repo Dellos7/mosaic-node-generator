@@ -1,6 +1,7 @@
 "use strict";
-/// <reference path="../node_modules/jimp/jimp.d.ts" />
+/// <reference path="../node_modules/jimp/types/ts3.1/index.d.ts" />
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.JimpImage = void 0;
 const rgb_1 = require("./rgb");
 const Jimp = require("jimp");
 const mosaic_default_config_json_1 = require("./mosaic-default-config.json");

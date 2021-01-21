@@ -217,7 +217,7 @@ export class MosaicImage {
      * @param numCols 
      */
     public processRowsAndColumns( rowStart: number, colStart: number, numRows: number, numCols: number ): Promise<any> {
-        return new Promise( async(resolve, reject) => {
+        return new Promise<void>( async(resolve, reject) => {
             if(this.enableConsoleLogging) console.log(`${new Date().toString()} - Generating mosaic from (${rowStart}, ${colStart}) to (${rowStart + numRows}, ${colStart + numCols})`);
             for( let row = rowStart; row < numRows; row++ ) {
                 const _processColsForRow = async(): Promise<any> => {
@@ -329,7 +329,7 @@ export class MosaicImage {
                     if(this.enableConsoleLogging) console.log('Mosaic image saved! --> ' + outputImageName);
                     //Finally we generate the thumbs folder in order to save time in following executions
                     this.generateThumbs();
-                    resolve();
+                    resolve(outputImageName);
                 }
                 else {
                     reject(`Tiles were not loaded`);

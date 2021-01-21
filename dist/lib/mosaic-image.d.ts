@@ -17,23 +17,23 @@ export declare class MosaicImage {
      * Recalculate columns and rows depending on the aspect ratio of the image
      * Resize the final image depending on the cell width and height, rows, columns...
      */
-    private _prepare();
+    private _prepare;
     /**
      * Helps calculate progress percentajes
      * @param currentRow
      * @param totalRows
      */
-    private _calcProgress(current, total);
+    private _calcProgress;
     /**
      * Basically reads all the tiles (pictures) from a folder, parses them as 'Image' objects and stores in the 'tiles' attribute
      * @param tilesDirectory
      */
-    private _readTiles(tilesDirectory?);
+    private _readTiles;
     /**
      * If attribute 'thumbsDirectoryFromRead' is true, it reads tiles as thumbs from the given thumbs folder
      * It does not resize them as they are supposed to be already thumbnails
      */
-    private _readThumbs();
+    private _readThumbs;
     /**
      * Saves the tiles in the 'thumbsDirectoryToWrite' folder, so we can use them later in order to save time
      */

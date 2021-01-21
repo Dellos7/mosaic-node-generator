@@ -1,9 +1,10 @@
-/// <reference path="../../node_modules/jimp/jimp.d.ts" />
+/// <reference types="jimp/*" />
 import { Image } from './image';
 import { RGB } from './rgb';
+import * as Jimp from 'jimp';
 export declare class JimpImage implements Image {
-    image: Jimp.Jimp;
-    constructor(image: Jimp.Jimp);
+    image: Jimp;
+    constructor(image: Jimp);
     /**
      * Static method
      * Convert the image to Jimp image from path

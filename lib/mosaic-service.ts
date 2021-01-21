@@ -15,8 +15,8 @@ export class MosaicService {
     private default_final_image_name: string = 'output';
     private default_tiles_dir: string = 'tiles';
 
-    orig_image: Jimp.Jimp;
-    image: Jimp.Jimp;
+    orig_image: Jimp;
+    image: Jimp;
     image_width: number = 0;
     image_height: number = 0;
     cell_width: number;
@@ -30,12 +30,12 @@ export class MosaicService {
     tiles_dir: string;
 
     //Converted tiles into thumbs
-    tiles: Jimp.Jimp[] = [];
+    tiles: Jimp[] = [];
 
     img_tiles_matrix: any[] = [];
 
     constructor( 
-        image: Jimp.Jimp, 
+        image: Jimp,
         tiles_dir?: string,
         final_image_name?: string,
         cell_width?: number, cell_height?: number, 
@@ -92,7 +92,7 @@ export class MosaicService {
         this.image.resize( this.image_width, this.image_height );
     }
 
-    public readTiles( tilesDir?: string ): Promise<Jimp.Jimp[]> {
+    public readTiles( tilesDir?: string ): Promise<Jimp[]> {
         return new Promise( (resolve, reject) => {
             let _tilesDir = tilesDir ? tilesDir : this.tiles_dir;
             let i = 0;
@@ -117,7 +117,7 @@ export class MosaicService {
         });
     }
 
-    public getBestTileForImage( imageAvgColor: RGB, row: number, col: number ): Promise<Jimp.Jimp> {
+    public getBestTileForImage( imageAvgColor: RGB, row: number, col: number ): Promise<Jimp> {
         return new Promise( (resolve, reject) => {
             if( !imageAvgColor ) {
                 throw new Error('No image provided');
@@ -126,7 +126,7 @@ export class MosaicService {
                 let tilesDiff: any[] = [];
                 const _gbtfi = async() => {
                     //Create an array of the tiles and diffs
-                    await this.asyncForEach( this.tiles, async( tile: Jimp.Jimp, i: number ) => {
+                    await this.asyncForEach( this.tiles, async( tile: Jimp, i: number ) => {
                         let rgb: RGB = await this.getImageAvgColor( tile, 0, 0, this.cell_width, this.cell_height );
                         let diff: number = imageAvgColor.getColorDistance( rgb );
                         tilesDiff.push({
@@ -179,7 +179,7 @@ export class MosaicService {
                         }*/
                     } while( !found );
 
-                    let bestTile: Jimp.Jimp = this.tiles[tilesDiff[j].tile_ind];
+                    let bestTile: Jimp = this.tiles[tilesDiff[j].tile_ind];
                     this.img_tiles_matrix[row][col] = tilesDiff[j].tile_ind;
                     resolve(bestTile);
                 };
@@ -189,7 +189,7 @@ export class MosaicService {
     }
 
     public generateMosaicImage( tilesDir? : string ) {
-        return new Promise( (resolve, reject) => {
+        return new Promise<void>( (resolve, reject) => {
             /**
              * 1. Read tiles --> generate tile thumbs
              * 2. Generate the mosaic image
@@ -250,7 +250,7 @@ export class MosaicService {
     }
 
     private _generateMosaicImage( rowStart: number, colStart: number, numRows: number, numCols: number ): Promise<any> {
-        return new Promise( (resolve, reject) => {
+        return new Promise<void>( (resolve, reject) => {
             console.log(`${new Date().toString()} - Generating mosaic from (${rowStart}, ${colStart}) 
                         to (${rowStart + numRows}, ${colStart + numCols})`);
             const _process = async() => {
@@ -262,7 +262,7 @@ export class MosaicService {
                         //Get average color of the current cell
                         let imageAvgColor: RGB = await this.getImageAvgColor( this.image, col * this.cell_width, row * this.cell_height, this.cell_width, this.cell_height );
                         //Get the best tile for this average color
-                        let bestTile: Jimp.Jimp = await this.getBestTileForImage( imageAvgColor, row, col );
+                        let bestTile: Jimp = await this.getBestTileForImage( imageAvgColor, row, col );
                         
                         //Composite the calculated tile in the final image
                         this.image.composite( bestTile, col * this.cell_width, row * this.cell_height );
@@ -278,7 +278,7 @@ export class MosaicService {
     }
 
     public cropImage( x: number, y: number, w: number, h: number ) {
-        let origImageClone: Jimp.Jimp = this.orig_image.clone();
+        let origImageClone: Jimp = this.orig_image.clone();
         return origImageClone.crop( x, y, w, h );
     }
 
@@ -294,8 +294,8 @@ export class MosaicService {
         });
     }
 
-    private jimpRead( path: string ): Promise<Jimp.Jimp> {
-        return new Promise<Jimp.Jimp>( (resolve, reject) => {
+    private jimpRead( path: string ): Promise<Jimp> {
+        return new Promise<Jimp>( (resolve, reject) => {
             try {
                 Jimp.read( path, (err, jimp) => {
                     if(err instanceof Error) {
@@ -314,7 +314,7 @@ export class MosaicService {
         });
     }
 
-    getImageAvgColor( image: Jimp.Jimp, x_start: number, y_start: number, width: number, height: number ): Promise<RGB> {
+    getImageAvgColor( image: Jimp, x_start: number, y_start: number, width: number, height: number ): Promise<RGB> {
         return new Promise<RGB>( (resolve, reject) => {
             let r = 0, g = 0, b = 0;
             let i = 0;

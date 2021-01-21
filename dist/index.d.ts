@@ -15,5 +15,5 @@ import { MosaicImage } from './lib/mosaic-image';
  * @param thumbsDirectoryToWrite We will use this folder in order to write the generated thumbs of the tiles
  * @param enableConsoleLogging Enable console logging
  */
-export declare function mosaic(inputImagePath: string, tilesDirectory?: string, cellWidth?: number, cellHeight?: number, columns?: number, rows?: number, thumbsDirectoryFromRead?: string, thumbsDirectoryToWrite?: string, enableConsoleLogging?: boolean): void;
+export declare function mosaic(inputImagePath: string, tilesDirectory?: string, cellWidth?: number, cellHeight?: number, columns?: number, rows?: number, thumbsDirectoryFromRead?: string, thumbsDirectoryToWrite?: string, enableConsoleLogging?: boolean): Promise<any>;
 export { Image, JimpImage, MosaicImage, RGB, CONFIG };

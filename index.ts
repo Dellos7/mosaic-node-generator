@@ -17,7 +17,7 @@ import { catchEm } from './lib/utility';
  * @param thumbsDirectoryToWrite We will use this folder in order to write the generated thumbs of the tiles
  * @param enableConsoleLogging Enable console logging
  */
-export function mosaic(
+export async function mosaic(
     inputImagePath: string,
     tilesDirectory?: string,
     cellWidth?: number, 
@@ -33,19 +33,23 @@ export function mosaic(
         let [err, img] = await catchEm( JimpImage.read( inputImagePath ) );
         if( err ) {
             console.error(err);
+            throw err;
         }
         else {
             let image: Image = new JimpImage( img );
             let mosaicImage = 
                 new MosaicImage( image, tilesDirectory, cellWidth, cellHeight, columns, rows, thumbsDirectoryFromRead, thumbsDirectoryToWrite, enableConsoleLogging );
-            let [err, _] = await catchEm( mosaicImage.generate() );
+            let [err, outputImage] = await catchEm( mosaicImage.generate() );
             if( err ) {
                 console.error(err);
+                throw err;
+            } else {
+                return outputImage;
             }
         }
     };
     
-    _generateMosaic();
+    return await _generateMosaic();
 }
 
 export { Image, JimpImage, MosaicImage, RGB, CONFIG };

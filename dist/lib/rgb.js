@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RGB = void 0;
 class RGB {
     constructor(r, g, b) {
         this.r = r;
